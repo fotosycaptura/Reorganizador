@@ -15,13 +15,12 @@ namespace Reorganizador
             {
                 Console.WriteLine(item.ToString());
                 FileInfo fi = new FileInfo(item);
-                if (fi.Extension.Equals(".jpg"))
+                if (fi.Extension.ToLower().Equals(".nef")|| fi.Extension.ToLower().Equals(".jpg"))
                 {
                     var directories = ImageMetadataReader.ReadMetadata(fi.Name);
                     var infoExif = directories.Where(p => p.Name.Equals("Exif IFD0")).ToList();
                     if (infoExif != null)
                     {
-                        
                         for (int i=0; i < infoExif.Count; i++)
                         {
                             for (int j=0; j < infoExif[i].Tags.Count; j++)
