@@ -21,10 +21,10 @@ namespace Reorganizador
                     var infoExif = directories.Where(p => p.Name.Equals("Exif IFD0")).ToList();
                     if (infoExif != null)
                     {
-                        for (int i=0; i < infoExif.Count; i++)
+                        for (int i = 0; i < infoExif.Count; i++)
                         {
                             bool blTagEncontrado = false;
-                            for (int j=0; j < infoExif[i].Tags.Count; j++)
+                            for (int j = 0; j < infoExif[i].Tags.Count; j++)
                             {
                                 if (infoExif[i].Tags[j].Name.Equals("Date/Time"))
                                 {
@@ -61,6 +61,22 @@ namespace Reorganizador
                                 break;
                             }//if
                         }//for
+                    }
+                    else
+                    {
+                        //No encontró ninguna etiqueta exif, habría que proceder por fecha de modificación.
+                        Console.WriteLine("Tag de fecha no encontrado, tomando fecha de modificación");
+                        string CrearCarpeta = fi.LastWriteTime.ToString("yyyy_MM_dd");
+                        if (!System.IO.Directory.Exists(CrearCarpeta))
+                        {
+                            System.IO.Directory.CreateDirectory(CrearCarpeta);
+                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
+                        }
+                        else
+                        {
+                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
+                        }
+                        break;
                     }//if
                 }//if
             }//foreach
