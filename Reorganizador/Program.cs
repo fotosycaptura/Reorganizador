@@ -1,5 +1,4 @@
 ﻿using MetadataExtractor;
-using MetadataExtractor.Formats.Exif;
 using System;
 using System.IO;
 using System.Linq;
@@ -9,13 +8,8 @@ namespace Reorganizador
 {
     class Program
     {
-        private static string imagePath;
-
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            imagePath = "*.jpg";
-
             string[] files = Directory.GetFiles(".");
             foreach (var item in files)
             {
