@@ -15,7 +15,7 @@ namespace Reorganizador
             {
                 Console.WriteLine(item.ToString());
                 FileInfo fi = new FileInfo(item);
-                if (fi.Extension.ToLower().Equals(".nef")|| fi.Extension.ToLower().Equals(".jpg"))
+                if (fi.Extension.ToLower().Equals(".cr2") || fi.Extension.ToLower().Equals(".nef")|| fi.Extension.ToLower().Equals(".jpg"))
                 {
                     var directories = ImageMetadataReader.ReadMetadata(fi.Name);
                     var infoExif = directories.Where(p => p.Name.Equals("Exif IFD0")).ToList();
