@@ -29,8 +29,9 @@ namespace Reorganizador
                                 if (infoExif[i].Tags[j].Name.Equals("Date/Time"))
                                 {
                                     string strFecha = infoExif[i].Tags[j].Description;
-                                    string[] valores = strFecha.Split(":");
-                                    string CrearCarpeta = valores[0] + "_" + valores[1] + "_" + valores[2];
+                                    strFecha = strFecha.Replace(":", "_");
+                                    string[] yyyyMMdd = strFecha.Split(" ");
+                                    string CrearCarpeta = yyyyMMdd[0];
                                     if (!System.IO.Directory.Exists(CrearCarpeta))
                                     {
                                         System.IO.Directory.CreateDirectory(CrearCarpeta);
