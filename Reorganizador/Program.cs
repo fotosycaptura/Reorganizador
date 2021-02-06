@@ -13,10 +13,10 @@ namespace Reorganizador
             string[] files = Directory.GetFiles(".");
             foreach (var item in files)
             {
-                Console.WriteLine("Procesando: " + item.ToString());
                 FileInfo fi = new FileInfo(item);
                 if (fi.Extension.ToLower().Equals(".cr2") || fi.Extension.ToLower().Equals(".nef")|| fi.Extension.ToLower().Equals(".jpg"))
                 {
+                    Console.WriteLine("Procesando: " + item.ToString());
                     var directories = ImageMetadataReader.ReadMetadata(fi.Name);
                     var infoExif = directories.Where(p => p.Name.Equals("Exif IFD0")).ToList();
                     if (infoExif != null)
