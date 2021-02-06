@@ -19,7 +19,7 @@ namespace Reorganizador
                     Console.WriteLine("Procesando: " + item.ToString());
                     var directories = ImageMetadataReader.ReadMetadata(fi.Name);
                     var infoExif = directories.Where(p => p.Name.Equals("Exif IFD0")).ToList();
-                    if (infoExif != null)
+                    if (infoExif != null && infoExif.Count > 0)
                     {
                         for (int i = 0; i < infoExif.Count; i++)
                         {
@@ -76,7 +76,6 @@ namespace Reorganizador
                         {
                             System.IO.File.Move(item, CrearCarpeta + "/" + item);
                         }
-                        break;
                     }//if
                 }//if
             }//foreach
