@@ -30,25 +30,42 @@ namespace Reorganizador
                                 {
                                     blTagEncontrado = true;
                                     string strFecha = infoExif[i].Tags[j].Description;
-                                    strFecha = strFecha.Replace(":", "_");
-                                    string[] yyyyMMdd = strFecha.Split(" ");
-                                    string CrearCarpeta = yyyyMMdd[0];
-                                    if (!System.IO.Directory.Exists(CrearCarpeta))
+                                    if (strFecha != null && strFecha.Length > 0)
                                     {
-                                        System.IO.Directory.CreateDirectory(CrearCarpeta);
-                                        System.IO.File.Move(item, CrearCarpeta + "/" + item);
-                                    }
-                                    else
-                                    {
-                                        if (!System.IO.File.Exists(CrearCarpeta + "/" + item))
+                                        strFecha = strFecha.Replace(":", "_");
+                                        string[] yyyyMMdd = strFecha.Split(" ");
+                                        string CrearCarpeta = yyyyMMdd[0];
+                                        if (!System.IO.Directory.Exists(CrearCarpeta))
                                         {
+                                            System.IO.Directory.CreateDirectory(CrearCarpeta);
                                             System.IO.File.Move(item, CrearCarpeta + "/" + item);
                                         }
                                         else
                                         {
-                                            Console.WriteLine("Archivo ya existe, saltado...");
-                                        }//if
+                                            if (!System.IO.File.Exists(CrearCarpeta + "/" + item))
+                                            {
+                                                System.IO.File.Move(item, CrearCarpeta + "/" + item);
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Archivo ya existe, saltado...");
+                                            }//if
+                                        }
                                     }
+                                    else
+                                    {
+                                        Console.WriteLine("Tag de fecha no encontrado, tomando fecha de modificación");
+                                        string CrearCarpeta = fi.LastWriteTime.ToString("yyyy_MM_dd");
+                                        if (!System.IO.Directory.Exists(CrearCarpeta))
+                                        {
+                                            System.IO.Directory.CreateDirectory(CrearCarpeta);
+                                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
+                                        }
+                                        else
+                                        {
+                                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
+                                        }//if
+                                    }//if
                                     break;
                                 }//if
                             }//for
