@@ -40,7 +40,14 @@ namespace Reorganizador
                                     }
                                     else
                                     {
-                                        System.IO.File.Move(item, CrearCarpeta + "/" + item);
+                                        if (!System.IO.File.Exists(CrearCarpeta + "/" + item))
+                                        {
+                                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Archivo ya existe, saltado...");
+                                        }//if
                                     }
                                     break;
                                 }//if
