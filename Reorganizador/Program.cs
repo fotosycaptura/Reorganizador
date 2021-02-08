@@ -23,26 +23,31 @@ namespace Reorganizador
                 }
                 else
                 {
-                    Console.WriteLine("Archivo ya existe, saltado...");
+                    //Console.WriteLine("Archivo ya existe, saltado...");
                 }//if
             }//if
         }
         static void NoHayTag(FileInfo fi, string item)
         {
             //No encontró ninguna etiqueta exif, habría que proceder por fecha de modificación.
-            Console.WriteLine("Tag de fecha no encontrado, tomando fecha de modificación");
+            //Console.WriteLine("Tag de fecha no encontrado, tomando fecha de modificación");
             string CrearCarpeta = fi.LastWriteTime.ToString("yyyy_MM_dd");
             Reorganiza(CrearCarpeta, item);
         }
         static void Main(string[] args)
         {
+            Console.WriteLine("Reorganizador Version 0.5");
+            Console.WriteLine("Reorganizando...");
             string[] files = Directory.GetFiles(".");
+            int inicio = 1;
+            int termino = files.Count();
             foreach (var item in files)
             {
                 FileInfo fi = new FileInfo(item);
+                progreso(inicio, termino);
                 if (fi.Extension.ToLower().Equals(".cr2") || fi.Extension.ToLower().Equals(".nef")|| fi.Extension.ToLower().Equals(".jpg"))
                 {
-                    Console.WriteLine("Procesando: " + item.ToString());
+                    //Console.WriteLine("Procesando: " + item.ToString());
                     var directories = ImageMetadataReader.ReadMetadata(fi.Name);
                     var infoExif = directories.Where(p => p.Name.Equals("Exif IFD0")).ToList();
                     if (infoExif != null && infoExif.Count > 0)
@@ -82,7 +87,40 @@ namespace Reorganizador
                         NoHayTag(fi, item);
                     }//if
                 }//if
+                inicio++;
             }//foreach
+            progreso(termino, termino);
+            Console.WriteLine("... Finalizado.");
+        }
+        private static void progreso(int progreso, int total=100) //Default 100
+        {
+            //Dibujar la barra vacia
+            Console.CursorLeft = 0;
+            Console.Write("."); //inicio
+            Console.CursorLeft = 31;
+            Console.Write("."); //fin
+            Console.CursorLeft = 1; //Colocar el cursor al inicio
+            float onechunk = 30.0f / total;
+
+            //Rellenar la parte indicada
+            int position = 1;
+            for (int i = 0; i < onechunk * progreso; i++)
+            {
+                Console.CursorLeft = position++;
+                Console.Write(".");
+            }
+
+            //Pintar la otra parte
+            for (int i = position; i <= 31; i++)
+            {
+                Console.CursorLeft = position++;
+                Console.Write(" ");
+            }
+
+            //Escribir el total al final
+            Console.CursorLeft = 35;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write(progreso.ToString() + " de " + total.ToString() + " procesado...   "); 
         }
     }
 }
