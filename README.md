@@ -3,7 +3,7 @@ Aplicación de consola para ayudar a reorganizar lotes de fotos del mismo direct
 Reorganiza el lote de fotos en carpetas yyyy_MM_dd, según los datos exif.
 Creado con .NetCore 3.1
 
-Dependencia de paquetes nuget:
+Dependencia de paquetes NuGet:
 > metadata-extractor
 
 Si se agrega al path del sistema, puede trabajar desde la carpeta en la que es llamada. 
