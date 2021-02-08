@@ -8,6 +8,32 @@ namespace Reorganizador
 {
     class Program
     {
+        static void Reorganiza(string CrearCarpeta, string item)
+        {
+            if (!System.IO.Directory.Exists(CrearCarpeta))
+            {
+                System.IO.Directory.CreateDirectory(CrearCarpeta);
+                System.IO.File.Move(item, CrearCarpeta + "/" + item);
+            }
+            else
+            {
+                if (!System.IO.File.Exists(CrearCarpeta + "/" + item))
+                {
+                    System.IO.File.Move(item, CrearCarpeta + "/" + item);
+                }
+                else
+                {
+                    Console.WriteLine("Archivo ya existe, saltado...");
+                }//if
+            }//if
+        }
+        static void NoHayTag(FileInfo fi, string item)
+        {
+            //No encontró ninguna etiqueta exif, habría que proceder por fecha de modificación.
+            Console.WriteLine("Tag de fecha no encontrado, tomando fecha de modificación");
+            string CrearCarpeta = fi.LastWriteTime.ToString("yyyy_MM_dd");
+            Reorganiza(CrearCarpeta, item);
+        }
         static void Main(string[] args)
         {
             string[] files = Directory.GetFiles(".");
@@ -35,71 +61,25 @@ namespace Reorganizador
                                         strFecha = strFecha.Replace(":", "_");
                                         string[] yyyyMMdd = strFecha.Split(" ");
                                         string CrearCarpeta = yyyyMMdd[0];
-                                        if (!System.IO.Directory.Exists(CrearCarpeta))
-                                        {
-                                            System.IO.Directory.CreateDirectory(CrearCarpeta);
-                                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
-                                        }
-                                        else
-                                        {
-                                            if (!System.IO.File.Exists(CrearCarpeta + "/" + item))
-                                            {
-                                                System.IO.File.Move(item, CrearCarpeta + "/" + item);
-                                            }
-                                            else
-                                            {
-                                                Console.WriteLine("Archivo ya existe, saltado...");
-                                            }//if
-                                        }
+                                        Reorganiza(CrearCarpeta, item);
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Tag de fecha no encontrado, tomando fecha de modificación");
-                                        string CrearCarpeta = fi.LastWriteTime.ToString("yyyy_MM_dd");
-                                        if (!System.IO.Directory.Exists(CrearCarpeta))
-                                        {
-                                            System.IO.Directory.CreateDirectory(CrearCarpeta);
-                                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
-                                        }
-                                        else
-                                        {
-                                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
-                                        }//if
+                                        NoHayTag(fi, item);
                                     }//if
                                     break;
                                 }//if
                             }//for
                             if (!blTagEncontrado)
                             {
-                                Console.WriteLine("Tag de fecha no encontrado, tomando fecha de modificación");
-                                string CrearCarpeta = fi.LastWriteTime.ToString("yyyy_MM_dd");
-                                if (!System.IO.Directory.Exists(CrearCarpeta))
-                                {
-                                    System.IO.Directory.CreateDirectory(CrearCarpeta);
-                                    System.IO.File.Move(item, CrearCarpeta + "/" + item);
-                                }
-                                else
-                                {
-                                    System.IO.File.Move(item, CrearCarpeta + "/" + item);
-                                }
+                                NoHayTag(fi, item);
                                 break;
                             }//if
                         }//for
                     }
                     else
                     {
-                        //No encontró ninguna etiqueta exif, habría que proceder por fecha de modificación.
-                        Console.WriteLine("Tag de fecha no encontrado, tomando fecha de modificación");
-                        string CrearCarpeta = fi.LastWriteTime.ToString("yyyy_MM_dd");
-                        if (!System.IO.Directory.Exists(CrearCarpeta))
-                        {
-                            System.IO.Directory.CreateDirectory(CrearCarpeta);
-                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
-                        }
-                        else
-                        {
-                            System.IO.File.Move(item, CrearCarpeta + "/" + item);
-                        }
+                        NoHayTag(fi, item);
                     }//if
                 }//if
             }//foreach
