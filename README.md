@@ -1,7 +1,7 @@
 # Reorganizador
 Aplicación de consola para ayudar a reorganizar lotes de fotos del mismo directorio o carpeta.
 Reorganiza el lote de fotos en carpetas yyyy_MM_dd, según los datos exif.
-Creado con .NetCore 3.1
+Creado con .NetCore 5
 
 Dependencia de paquetes NuGet:
 > metadata-extractor
