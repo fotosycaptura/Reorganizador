@@ -4,7 +4,7 @@ Reorganiza el lote de fotos en carpetas yyyy_MM_dd, según los datos exif.
 Creado con .NetCore 5
 
 Dependencia de paquetes NuGet:
-> metadata-extractor
+> metadata-extractor  
 > CommandLineParser
 
 Si se agrega al path del sistema, puede trabajar desde la carpeta en la que es llamada. 
